@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TelasSurModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Rol">
+    <Key>
+      <PropertyRef Name="RolID" />
+    </Key>
+    <Property Name="RolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Usuarios" Relationship="Self.RefRol2" FromRole="Rol" ToRole="Usuarios" />
+  </EntityType>
+  <EntityType Name="Telas">
+    <Key>
+      <PropertyRef Name="ProductoID" />
+      <PropertyRef Name="TipoTelaID" />
+    </Key>
+    <Property Name="ProductoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="TipoTelaID" Type="Int32" Nullable="false" />
+    <Property Name="Nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Foto" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="Estatus" Type="Byte" />
+    <NavigationProperty Name="TipoTela" Relationship="Self.RefTipoTela1" FromRole="Telas" ToRole="TipoTela" />
+  </EntityType>
+  <EntityType Name="TipoTela">
+    <Key>
+      <PropertyRef Name="TipoTelaID" />
+    </Key>
+    <Property Name="TipoTelaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Estatus" Type="Byte" Nullable="false" />
+    <NavigationProperty Name="Telas" Relationship="Self.RefTipoTela1" FromRole="TipoTela" ToRole="Telas" />
+  </EntityType>
+  <EntityType Name="Usuarios">
+    <Key>
+      <PropertyRef Name="UsuarioID" />
+      <PropertyRef Name="RolID" />
+    </Key>
+    <Property Name="UsuarioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RolID" Type="Int32" Nullable="false" />
+    <Property Name="Foto" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="Nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ApellidoPaterno" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="ApellidoMaterno" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="CorreoElectronico" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Contrasena" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Rol" Relationship="Self.RefRol2" FromRole="Usuarios" ToRole="Rol" />
+  </EntityType>
+  <Association Name="RefRol2">
+    <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+    <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rol">
+        <PropertyRef Name="RolID" />
+      </Principal>
+      <Dependent Role="Usuarios">
+        <PropertyRef Name="RolID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="RefTipoTela1">
+    <End Role="TipoTela" Type="Self.TipoTela" Multiplicity="1" />
+    <End Role="Telas" Type="Self.Telas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoTela">
+        <PropertyRef Name="TipoTelaID" />
+      </Principal>
+      <Dependent Role="Telas">
+        <PropertyRef Name="TipoTelaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TelasSurEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Rol" EntityType="Self.Rol" />
+    <EntitySet Name="Telas" EntityType="Self.Telas" />
+    <EntitySet Name="TipoTela" EntityType="Self.TipoTela" />
+    <EntitySet Name="Usuarios" EntityType="Self.Usuarios" />
+    <AssociationSet Name="RefRol2" Association="Self.RefRol2">
+      <End Role="Rol" EntitySet="Rol" />
+      <End Role="Usuarios" EntitySet="Usuarios" />
+    </AssociationSet>
+    <AssociationSet Name="RefTipoTela1" Association="Self.RefTipoTela1">
+      <End Role="TipoTela" EntitySet="TipoTela" />
+      <End Role="Telas" EntitySet="Telas" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

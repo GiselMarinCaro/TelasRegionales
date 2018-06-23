@@ -1,0 +1,43 @@
+﻿@model IEnumerable<TelasRegionales.Models.Telas>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/LayoutT.cshtml";
+}
+
+<section class="portfolio-area section-gap" id="portfolio">
+    <div class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="menu-content pb-70 col-lg-8">
+                <div class="title text-center">
+                    <h1 class="mb-10">Portafolio</h1>
+                    <p>Galería de Telas</p>
+                </div>
+            </div>
+        </div>
+        <div class="filters-content">
+            <div class="row grid">
+                @foreach (var item in Model)
+                {
+                    <div class="single-portfolio col-sm-4 all vector">
+                        <div class="relative">
+                            <div class="thumb">
+                                <div class="overlay overlay-bg"></div>
+                                <img class="image img-fluid" src="@item.Foto" alt="fluid">
+                            </div>
+                            <a href="@item.Foto" class="img-pop-up">
+                                <div class="middle">
+                                    <div class="text align-self-center d-flex"><img src="~/img/preview.png" alt="@item.TipoTela.Nombre"></div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="p-inner">
+                            <h4>@item.Nombre</h4>
+                            <div class="cat">@item.Descripcion</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+    </div>
+</section>

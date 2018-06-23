@@ -1,0 +1,256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TelasSurModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="RolID" />
+          </Key>
+          <Property Name="RolID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="Telas">
+          <Key>
+            <PropertyRef Name="ProductoID" />
+            <PropertyRef Name="TipoTelaID" />
+          </Key>
+          <Property Name="ProductoID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TipoTelaID" Type="int" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="250" />
+          <Property Name="Foto" Type="varchar" MaxLength="200" />
+          <Property Name="Estatus" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="TipoTela">
+          <Key>
+            <PropertyRef Name="TipoTelaID" />
+          </Key>
+          <Property Name="TipoTelaID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="250" />
+          <Property Name="Estatus" Type="tinyint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="UsuarioID" />
+            <PropertyRef Name="RolID" />
+          </Key>
+          <Property Name="UsuarioID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RolID" Type="int" Nullable="false" />
+          <Property Name="Foto" Type="varchar" MaxLength="250" />
+          <Property Name="Nombre" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="varchar" MaxLength="45" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Telefono" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Contrasena" Type="varchar" MaxLength="45" Nullable="false" />
+        </EntityType>
+        <Association Name="RefRol2">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="RolID" />
+            </Principal>
+            <Dependent Role="Usuarios">
+              <PropertyRef Name="RolID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RefTipoTela1">
+          <End Role="TipoTela" Type="Self.TipoTela" Multiplicity="1" />
+          <End Role="Telas" Type="Self.Telas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoTela">
+              <PropertyRef Name="TipoTelaID" />
+            </Principal>
+            <Dependent Role="Telas">
+              <PropertyRef Name="TipoTelaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TelasSurModelStoreContainer">
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Telas" EntityType="Self.Telas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TipoTela" EntityType="Self.TipoTela" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="RefRol2" Association="Self.RefRol2">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuarios" EntitySet="Usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="RefTipoTela1" Association="Self.RefTipoTela1">
+            <End Role="TipoTela" EntitySet="TipoTela" />
+            <End Role="Telas" EntitySet="Telas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TelasSurModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="RolID" />
+          </Key>
+          <Property Name="RolID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Usuarios" Relationship="Self.RefRol2" FromRole="Rol" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="Telas">
+          <Key>
+            <PropertyRef Name="ProductoID" />
+            <PropertyRef Name="TipoTelaID" />
+          </Key>
+          <Property Name="ProductoID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TipoTelaID" Type="Int32" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Foto" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="Estatus" Type="Byte" />
+          <NavigationProperty Name="TipoTela" Relationship="Self.RefTipoTela1" FromRole="Telas" ToRole="TipoTela" />
+        </EntityType>
+        <EntityType Name="TipoTela">
+          <Key>
+            <PropertyRef Name="TipoTelaID" />
+          </Key>
+          <Property Name="TipoTelaID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="String" MaxLength="150" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Estatus" Type="Byte" Nullable="false" />
+          <NavigationProperty Name="Telas" Relationship="Self.RefTipoTela1" FromRole="TipoTela" ToRole="Telas" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="UsuarioID" />
+            <PropertyRef Name="RolID" />
+          </Key>
+          <Property Name="UsuarioID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RolID" Type="Int32" Nullable="false" />
+          <Property Name="Foto" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Nombre" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApellidoPaterno" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ApellidoMaterno" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="CorreoElectronico" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Telefono" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Contrasena" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Rol" Relationship="Self.RefRol2" FromRole="Usuarios" ToRole="Rol" />
+        </EntityType>
+        <Association Name="RefRol2">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="RolID" />
+            </Principal>
+            <Dependent Role="Usuarios">
+              <PropertyRef Name="RolID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RefTipoTela1">
+          <End Role="TipoTela" Type="Self.TipoTela" Multiplicity="1" />
+          <End Role="Telas" Type="Self.Telas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TipoTela">
+              <PropertyRef Name="TipoTelaID" />
+            </Principal>
+            <Dependent Role="Telas">
+              <PropertyRef Name="TipoTelaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TelasSurEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Rol" EntityType="Self.Rol" />
+          <EntitySet Name="Telas" EntityType="Self.Telas" />
+          <EntitySet Name="TipoTela" EntityType="Self.TipoTela" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" />
+          <AssociationSet Name="RefRol2" Association="Self.RefRol2">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuarios" EntitySet="Usuarios" />
+          </AssociationSet>
+          <AssociationSet Name="RefTipoTela1" Association="Self.RefTipoTela1">
+            <End Role="TipoTela" EntitySet="TipoTela" />
+            <End Role="Telas" EntitySet="Telas" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TelasSurModelStoreContainer" CdmEntityContainer="TelasSurEntities">
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="TelasSurModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="RolID" ColumnName="RolID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Telas">
+            <EntityTypeMapping TypeName="TelasSurModel.Telas">
+              <MappingFragment StoreEntitySet="Telas">
+                <ScalarProperty Name="ProductoID" ColumnName="ProductoID" />
+                <ScalarProperty Name="TipoTelaID" ColumnName="TipoTelaID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TipoTela">
+            <EntityTypeMapping TypeName="TelasSurModel.TipoTela">
+              <MappingFragment StoreEntitySet="TipoTela">
+                <ScalarProperty Name="TipoTelaID" ColumnName="TipoTelaID" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="Estatus" ColumnName="Estatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="TelasSurModel.Usuarios">
+              <MappingFragment StoreEntitySet="Usuarios">
+                <ScalarProperty Name="UsuarioID" ColumnName="UsuarioID" />
+                <ScalarProperty Name="RolID" ColumnName="RolID" />
+                <ScalarProperty Name="Foto" ColumnName="Foto" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="ApellidoPaterno" ColumnName="ApellidoPaterno" />
+                <ScalarProperty Name="ApellidoMaterno" ColumnName="ApellidoMaterno" />
+                <ScalarProperty Name="CorreoElectronico" ColumnName="CorreoElectronico" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
